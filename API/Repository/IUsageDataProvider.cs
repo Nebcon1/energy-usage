@@ -2,7 +2,7 @@ using API.Models;
 
 namespace API
 {
-    public interface IUsageRepository
+    public interface IUsageDataProvider
     {
         public IEnumerable<ProcessedUsageData> GetUsageData();
     }

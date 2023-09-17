@@ -8,9 +8,9 @@ namespace API.Controllers;
 public class EnergyDataController : ControllerBase
 {
     private readonly ILogger<EnergyDataController> _logger;
-    private IUsageRepository _usageRepository;
+    private IUsageDataProvider _usageRepository;
 
-    public EnergyDataController(ILogger<EnergyDataController> logger, IUsageRepository usageRepository)
+    public EnergyDataController(ILogger<EnergyDataController> logger, IUsageDataProvider usageRepository)
     {
         _logger = logger;
         _usageRepository = usageRepository;

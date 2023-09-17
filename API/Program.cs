@@ -1,4 +1,5 @@
 using API;
+using API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IUsageRepository, UsageRepository>();
+builder.Services.AddScoped<IFileParser, FileParser>();
+builder.Services.AddScoped<IUsageDataProvider, UsageDataProvider>();
+
+
 
 var app = builder.Build();
 

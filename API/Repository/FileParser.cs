@@ -1,4 +1,6 @@
+using System.Globalization;
 using API.Models;
+using CsvHelper;
 
 namespace API.Repository
 {
@@ -11,7 +13,17 @@ namespace API.Repository
 
         public IEnumerable<UsageData> ParseUsageData(string filepath)
         {
-            throw new NotImplementedException();
+            IEnumerable<UsageData> usageData;
+
+            using (var reader = new StreamReader(filepath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var data = csv.GetRecords<UsageData>();
+                usageData = data.ToArray();
+            }
+            usageData.Count();
+            //var b = usageData[0];
+            return usageData;
         }
     }
 }
