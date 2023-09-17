@@ -1,3 +1,4 @@
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -14,8 +15,9 @@ public class EnergyDataController : ControllerBase
     }
 
     [HttpGet(Name = "GetUsageData")]
-    public string Get()
+    public IEnumerable<UsageData> Get()
     {
-        return "test";
+        List<UsageData> energyUsage = new List<UsageData>(){new UsageData(){dateTime = DateTime.Now, EnergyConsumption = 1.2}};
+        return energyUsage; 
     }
 }
