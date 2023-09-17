@@ -17,10 +17,8 @@ public class EnergyDataController : ControllerBase
     }
 
     [HttpGet(Name = "GetUsageData")]
-    public IEnumerable<UsageData> Get()
+    public IEnumerable<ProcessedUsageData> Get()
     {
         return _usageRepository.GetUsageData();
-        // List<UsageData> energyUsage = new List<UsageData>(){new UsageData(){dateTime = DateTime.Now, EnergyConsumption = 1.2}};
-        // return energyUsage;
     }
 }

@@ -4,9 +4,9 @@ namespace API
 {
     public class UsageRepository : IUsageRepository
     {
-        public IEnumerable<UsageData> GetUsageData()
+        public IEnumerable<ProcessedUsageData> GetUsageData()
         {
-            List<UsageData> energyUsage = new List<UsageData>(){new UsageData(){dateTime = DateTime.Now, EnergyConsumption = 1.2}};
+            List<ProcessedUsageData> energyUsage = new List<ProcessedUsageData>(){new ProcessedUsageData(){dateTime = DateTime.Now, EnergyConsumption = 1.2}};
             return energyUsage;
         }
     }

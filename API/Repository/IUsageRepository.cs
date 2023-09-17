@@ -4,6 +4,6 @@ namespace API
 {
     public interface IUsageRepository
     {
-        public IEnumerable<UsageData> GetUsageData();
+        public IEnumerable<ProcessedUsageData> GetUsageData();
     }
 }
