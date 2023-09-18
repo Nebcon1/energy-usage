@@ -7,6 +7,6 @@ namespace API.Models
         public DateTime Timestamp { get; set; }
         public double EnergyConsumption {get; set;}
         public double AverageTemperature {get; set;}
-        public float AverageHumidity {get; set;}
+        public double AverageHumidity {get; set;}
     }
 }

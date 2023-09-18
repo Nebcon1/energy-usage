@@ -20,6 +20,7 @@ namespace API
         public IEnumerable<ProcessedUsageData> GetUsageData()
         {
             IEnumerable<UsageData> energyUsage = _usageFileParser.ParseFile(_config.GetValue<string>("CombinedUsageDataFilePath") ?? "Set filepath in app settings.");
+            var t = _config.GetValue<string>("AnomalyDataFilePath") ?? "Set filepath in app settings.";
             IEnumerable<Anomaly> anomalies = _anomalyFileParser.ParseFile(_config.GetValue<string>("AnomalyDataFilePath") ?? "Set filepath in app settings.");
 
             List<ProcessedUsageData> processedUsageData = new List<ProcessedUsageData>();
