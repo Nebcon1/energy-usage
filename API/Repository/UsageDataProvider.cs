@@ -6,17 +6,21 @@ namespace API
 {
     public class UsageDataProvider : IUsageDataProvider
     {
-        private readonly IFileParser _fileParser;
+        private IConfiguration _config;
+        private readonly IFileParser<UsageData> _usageFileParser;
+        private readonly IFileParser<Anomaly> _anomalyFileParser;
 
-        public UsageDataProvider(IFileParser fileParser)
+        public UsageDataProvider(IConfiguration config, IFileParser<UsageData> usageFileParser, IFileParser<Anomaly> anomalyFileParser)
         {
-            _fileParser = fileParser;
+            _config = config;
+            _usageFileParser = usageFileParser;
+            _anomalyFileParser = anomalyFileParser;
         }
 
         public IEnumerable<ProcessedUsageData> GetUsageData()
         {
-            IEnumerable<UsageData> energyUsage = _fileParser.ParseUsageData("C:\\Users\\ben.connolly\\OneDrive - Accenture\\Documents\\IW-BC\\Personal\\EnergyUsage\\energy-usage\\Data\\CombinedDataSet.csv");
-            IEnumerable<Anomaly> anomalies = _fileParser.ParseAnomalies("C:\\Users\\ben.connolly\\OneDrive - Accenture\\Documents\\IW-BC\\Personal\\EnergyUsage\\energy-usage\\Data\\HalfHourlyEnergyDataAnomalies.csv");
+            IEnumerable<UsageData> energyUsage = _usageFileParser.ParseFile(_config.GetValue<string>("CombinedUsageDataFilePath") ?? "Set filepath in app settings.");
+            IEnumerable<Anomaly> anomalies = _anomalyFileParser.ParseFile(_config.GetValue<string>("AnomalyDataFilePath") ?? "Set filepath in app settings.");
 
             List<ProcessedUsageData> processedUsageData = new List<ProcessedUsageData>();
             IEnumerable<DateTime> dateTimes = from anomaly in anomalies select anomaly.Timestamp;
