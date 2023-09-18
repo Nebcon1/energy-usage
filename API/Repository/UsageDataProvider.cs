@@ -16,9 +16,10 @@ namespace API
         public IEnumerable<ProcessedUsageData> GetUsageData()
         {
             IEnumerable<UsageData> energyUsage = _fileParser.ParseUsageData("C:\\Users\\ben.connolly\\OneDrive - Accenture\\Documents\\IW-BC\\Personal\\EnergyUsage\\energy-usage\\Data\\CombinedDataSet.csv");
-            //TODO:parse anomalies here
+            IEnumerable<Anomaly> anomalies = _fileParser.ParseAnomalies("C:\\Users\\ben.connolly\\OneDrive - Accenture\\Documents\\IW-BC\\Personal\\EnergyUsage\\energy-usage\\Data\\HalfHourlyEnergyDataAnomalies.csv");
 
             List<ProcessedUsageData> processedUsageData = new List<ProcessedUsageData>();
+            IEnumerable<DateTime> dateTimes = from anomaly in anomalies select anomaly.Timestamp;
 
             foreach (var dataPoint in energyUsage)
             {
@@ -27,14 +28,17 @@ namespace API
                     Timestamp = dataPoint.Timestamp,
                     EnergyConsumption = dataPoint.EnergyConsumption,
                     AverageTemperature = dataPoint.AverageTemperature,
-                    AverageHumidity = dataPoint.AverageHumidity
+                    AverageHumidity = dataPoint.AverageHumidity,
+                    IsAnomaly = false
                 };
-                //TODO: check if present in anomalies and set bool
+
+                if (dateTimes.Contains(processedDataPoint.Timestamp))
+                {
+                    processedDataPoint.IsAnomaly = true;
+                };
 
                 processedUsageData.Add(processedDataPoint);
             }
-
-            //IEnumerable<ProcessedUsageData> processedUsageData = new List<ProcessedUsageData>(){new ProcessedUsageData(){Timestamp = DateTime.Now, EnergyConsumption = 1.2}};
 
             return processedUsageData;
         }

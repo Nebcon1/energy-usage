@@ -8,7 +8,16 @@ namespace API.Repository
     {
         public IEnumerable<Anomaly> ParseAnomalies(string filepath)
         {
-            throw new NotImplementedException();
+            IEnumerable<Anomaly> anomalousData;
+
+            using (var reader = new StreamReader(filepath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var data = csv.GetRecords<Anomaly>();
+                anomalousData = data.ToList();
+            }
+
+            return anomalousData;
         }
 
         public IEnumerable<UsageData> ParseUsageData(string filepath)
@@ -19,10 +28,9 @@ namespace API.Repository
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
                 var data = csv.GetRecords<UsageData>();
-                usageData = data.ToArray();
+                usageData = data.ToList();
             }
-            usageData.Count();
-            //var b = usageData[0];
+
             return usageData;
         }
     }
