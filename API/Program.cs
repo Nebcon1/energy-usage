@@ -2,12 +2,20 @@ using API;
 using API.Models;
 using API.Repository;
 
+var LocalAllowedOrigins = "_localAllowedOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: LocalAllowedOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("http://localhost:3000");
+                      });
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,6 +33,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(LocalAllowedOrigins);
 
 app.UseAuthorization();
 
