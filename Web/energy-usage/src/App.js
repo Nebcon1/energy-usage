@@ -1,25 +1,15 @@
 import './App.css';
 import React from 'react';
-import { render } from 'react-dom';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
-const getUsageData = async () => {
-  try {
-    const result = await fetch(`http://localhost:5035/EnergyData`);
-    const usageData = await result.json();
-    console.log(usageData);
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { getUsageData } from './getUsageData';
 
 const options = {
   chart: {
     type: 'spline'
   },
   title: {
-    text: 'My chart'
+    text: 'Energy Consumption'
   },
   series: [
     {
