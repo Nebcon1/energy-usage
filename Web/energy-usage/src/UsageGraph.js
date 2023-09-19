@@ -12,12 +12,21 @@ export function UsageGraph() {
         timestamp: [],
         energyConsumption: [],
         averageTemperature: [],
+        anomalyConsumption: [],
       };
 
       Object.entries(usageData).forEach(([key, val]) => {
         graphData.timestamp.push(val.timestamp);
         graphData.energyConsumption.push(val.energyConsumption);
         graphData.averageTemperature.push(val.averageTemperature);
+
+        if (val.isAnomaly === true) {
+          graphData.anomalyConsumption.push(val.energyConsumption);
+        }
+        //REVIEW: solution for anomaly mapping, likely more optimal ways to utilise highcharts
+        else {
+          graphData.anomalyConsumption.push(0);
+        }
       });
 
       return graphData;
@@ -45,21 +54,53 @@ export function UsageGraph() {
       categories: data.timestamp,
       crosshair: true,
     },
-    yAxis:[{
-      title:{
-        text: "Energy Consumption",
-        crosshair: true
-      }      
-    },
-    {
-      title:{
-        text: "Temperature"
+    yAxis: [
+      {
+        title: {
+          text: "Energy Consumption",
+          crosshair: true,
+        },
       },
-      opposite: true   
-    }],
+      {
+        title: {
+          text: "Temperature",
+        },
+        opposite: true,
+      },
+    ],
     tooltip: {
-      shared: true
-  },
+      shared: true,
+      useHTML: true,
+      headerFormat: '<table><tr><th colspan="2">{point.key}</th></tr>',
+      pointFormat:
+        '<tr><td style="color: {series.color}">{series.name} </td>' +
+        '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+      footerFormat: "</table>",
+      valueDecimals: 2,
+    },
+    annotations: [
+      {
+        draggable: false,
+        labels: [
+          {
+            text: "A",
+            customTooltipText: "Anomaly detected",
+            point: {
+              xAxis: data.anomalyTimestamps,
+              yAxis: data.anomalyConsumption,
+            },
+          },
+        ],
+        labelOptions: {
+          align: "right",
+          backgroundColor: "rgb(224, 34, 0)",
+          borderColor: "rgb(194, 29, 0)",
+          style: {
+            fontWeight: "bold",
+          },
+        },
+      },
+    ],
     series: [
       {
         name: "Energy Consumption",
@@ -68,7 +109,12 @@ export function UsageGraph() {
       {
         name: "Temperature",
         data: data.averageTemperature,
-        yAxis: 1
+        yAxis: 1,
+      },
+      {
+        name: "Anomaly Detected at Consumption Value",
+        data: data.anomalyConsumption,
+        color: "#FF0000",
       },
     ],
   };
