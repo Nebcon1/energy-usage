@@ -23,7 +23,7 @@ export function UsageGraph() {
         if (val.isAnomaly === true) {
           graphData.anomalyConsumption.push(val.energyConsumption);
         }
-        //REVIEW: solution for anomaly mapping, likely more optimal ways to utilise highcharts
+        //REVIEW: solution for anomaly mapping, likely more optimal ways to utilise highcharts.
         else {
           graphData.anomalyConsumption.push(0);
         }

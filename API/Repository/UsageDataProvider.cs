@@ -30,7 +30,7 @@ namespace API
             {
                 var processedDataPoint = new ProcessedUsageData()
                 {
-                    Timestamp = dataPoint.Timestamp,
+                    Timestamp = new DateTime(dataPoint.Timestamp.Ticks),
                     EnergyConsumption = dataPoint.EnergyConsumption,
                     AverageTemperature = dataPoint.AverageTemperature,
                     AverageHumidity = dataPoint.AverageHumidity,
